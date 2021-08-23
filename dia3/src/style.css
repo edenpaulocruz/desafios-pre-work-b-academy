@@ -25,6 +25,10 @@
   font-size: 2rem;
 }
 
+.select {
+  text-align: center;
+}
+
 .colors-wrap {
   display: flex;
   justify-content: space-between;

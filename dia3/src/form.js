@@ -26,15 +26,12 @@ function createOption(color) {
 
 function createDivColor(color) {
   const div = document.createElement('div')
-  div.style.height = '100px'
+  div.style.height = '5rem'
   div.style.width = '100%'
   div.style.background = color;
   div.style.border = '2px solid #cecece'
   return div
 }
-
-colorsWrap.setAttribute('class', 'colors-wrap')
-app.appendChild(colorsWrap)
 
 colors.forEach(color => {
   const option = createOption(color)
@@ -42,11 +39,18 @@ colors.forEach(color => {
 })
 
 select.classList.add('select')
+select.setAttribute('multiple', '')
+select.setAttribute('size', `${colors.length}`)
 form.appendChild(select)
 
 select.addEventListener('change', (event) => {
-  const div = createDivColor(event.target.value)
-  colorsWrap.appendChild(div)
+  colorsWrap.innerHTML = ' '
+
+  Array.from(event.target.selectedOptions).forEach(option => {
+    const div = createDivColor(option.value)
+    colorsWrap.appendChild(div)
+  })
 })
 
-
+colorsWrap.setAttribute('class', 'colors-wrap')
+app.appendChild(colorsWrap)
