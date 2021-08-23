@@ -14,7 +14,7 @@ inputName.addEventListener('input', (event) => {
 const app = document.querySelector('[data-js="app"]')
 const form = document.querySelector('[data-js="form')
 const select = document.createElement('select')
-const colors = ["#ffffff", "#000000", "#ff0000", "#00ff00", "#0000ff"]
+const colors = ["#FFFFFF", "#000000", "#FF0000", "#00FF00", "#0000FF"]
 const colorsWrap = document.createElement('div')
 
 function createOption(color) {
@@ -29,7 +29,6 @@ function createDivColor(color) {
   div.style.height = '5rem'
   div.style.width = '100%'
   div.style.background = color;
-  div.style.border = '2px solid #cecece'
   return div
 }
 
