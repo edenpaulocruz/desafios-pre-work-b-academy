@@ -27,6 +27,7 @@ function createOption(color) {
 function createDivColor(color) {
   const div = document.createElement('div')
   div.style.height = '100px'
+  div.style.width = '100%'
   div.style.background = color;
   div.style.border = '2px solid #cecece'
   return div
@@ -44,5 +45,8 @@ select.classList.add('select')
 form.appendChild(select)
 
 select.addEventListener('change', (event) => {
-  console.log(event.target.value)
+  const div = createDivColor(event.target.value)
+  colorsWrap.appendChild(div)
 })
+
+
