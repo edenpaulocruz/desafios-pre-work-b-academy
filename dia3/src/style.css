@@ -24,3 +24,9 @@
   padding: 1rem;
   font-size: 2rem;
 }
+
+.colors-wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}

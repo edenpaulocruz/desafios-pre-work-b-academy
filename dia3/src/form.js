@@ -11,9 +11,11 @@ inputName.addEventListener('input', (event) => {
   }).join(' ')
 })
 
+const app = document.querySelector('[data-js="app"]')
 const form = document.querySelector('[data-js="form')
 const select = document.createElement('select')
 const colors = ["#ffffff", "#000000", "#ff0000", "#00ff00", "#0000ff"]
+const colorsWrap = document.createElement('div')
 
 function createOption(color) {
   const option = document.createElement('option')
@@ -22,6 +24,17 @@ function createOption(color) {
   return option
 }
 
+function createDivColor(color) {
+  const div = document.createElement('div')
+  div.style.height = '100px'
+  div.style.background = color;
+  div.style.border = '2px solid #cecece'
+  return div
+}
+
+colorsWrap.setAttribute('class', 'colors-wrap')
+app.appendChild(colorsWrap)
+
 colors.forEach(color => {
   const option = createOption(color)
   select.appendChild(option)
@@ -29,3 +42,7 @@ colors.forEach(color => {
 
 select.classList.add('select')
 form.appendChild(select)
+
+select.addEventListener('change', (event) => {
+  console.log(event.target.value)
+})
