@@ -12,11 +12,12 @@
   background-color:#ddd;
   color: #2c3e50;
   margin: 60px auto 0;
-  width: 40rem;
+  width: 60rem;
 }
 
 .form {
   width: 100%;
+  margin-bottom: 2rem;
 }
 
 .name, .select {
@@ -35,4 +36,19 @@
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.car-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.car-table th,
+.car-table td {
+  padding: 1rem;
+  border: 1px solid #000;
+}
+
+.car-table tr:nth-child(odd) {
+  background-color: #fff;
 }
