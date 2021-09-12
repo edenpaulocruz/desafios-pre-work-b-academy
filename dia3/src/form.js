@@ -15,7 +15,7 @@ const app = document.querySelector('[data-js="app"]')
 const form = document.querySelector('[data-js="form')
 const select = document.createElement('select')
 const colors = ["#FFFFFF", "#000000", "#FF0000", "#00FF00", "#0000FF"]
-const colorsWrap = document.createElement('div')
+const colorsWrap = document.querySelector('[data-js="colors-wrap"]')
 
 function createOption(color) {
   const option = document.createElement('option')
@@ -52,4 +52,4 @@ select.addEventListener('change', (event) => {
 })
 
 colorsWrap.setAttribute('class', 'colors-wrap')
-app.appendChild(colorsWrap)
+// app.appendChild(colorsWrap)

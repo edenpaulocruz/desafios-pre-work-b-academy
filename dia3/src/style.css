@@ -33,6 +33,7 @@
 }
 
 .colors-wrap {
+  margin: -3rem 0 2rem;
   display: flex;
   justify-content: space-between;
   gap: 1rem;
