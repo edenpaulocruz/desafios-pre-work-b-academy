@@ -57,4 +57,7 @@ carForm.addEventListener('submit', (event) => {
   })
 
   carTable.appendChild(tr)
+
+  event.target.reset()
+  image.focus()
 })
