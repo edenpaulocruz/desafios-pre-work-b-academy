@@ -6,3 +6,18 @@ body {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+.car-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.car-table th,
+.car-table td {
+  padding: 1rem;
+  border: 1px solid #000;
+}
+
+.car-table tr:nth-child(odd) {
+  background-color: #fff;
+}
