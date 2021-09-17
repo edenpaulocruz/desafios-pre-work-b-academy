@@ -19,29 +19,28 @@ function noCars() {
   const td = document.createElement('td')
   td.textContent = 'Nenhum carro encontrado'
   td.colSpan = 5;
+  tr.dataset.js = ('no-cars')
   tr.appendChild(td)
   carTable.appendChild(tr)
 }
 
-function listCars(cars) {
-  cars.map(car => {
-    const tr = document.createElement('tr')
+function addRowCar(car) {
+  const tr = document.createElement('tr')
 
-    const elements = [
-      { type: 'image', value: car.image },
-      { type: 'text', value: car.brandModel },
-      { type: 'text', value: car.year},
-      { type: 'text', value: car.plate},
-      { type: 'color', value: car.color}
-    ]
+  const elements = [
+    { type: 'image', value: car.image },
+    { type: 'text', value: car.brandModel },
+    { type: 'text', value: car.year},
+    { type: 'text', value: car.plate},
+    { type: 'color', value: car.color}
+  ]
 
-    elements.forEach(element => {
-      const td = typeOfElements[element.type](element.value)
-      tr.appendChild(td)
-    })
-
-    carTable.appendChild(tr)
+  elements.forEach(element => {
+    const td = typeOfElements[element.type](element.value)
+    tr.appendChild(td)
   })
+
+  carTable.appendChild(tr)
 }
 
 function insertImage (value) {
@@ -76,32 +75,36 @@ function showCars() {
     .then(result => result.json())
     .then(result => {
       const cars = result
+
       if (cars.length === 0) {
         noCars()
         return
       }
-      return listCars(cars)
+
+      cars.map(car => {
+        return addRowCar(car)
+      })
     })
 }
 
-function addCar(elements) {
+function addCar(car) {
   fetch(url, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      image: elements.image,
-      brandModel: elements.brandModel,
-      year: elements.year,
-      plate: elements.plate,
-      color: elements.color,
+      image: car.image,
+      brandModel: car.brandModel,
+      year: car.year,
+      plate: car.plate,
+      color: car.color,
     })
   })
   .then(() => {
     fetch(url)
       .then(result => result.json())
-      .then(showCars())
+      .then(addRowCar(car))
   })
 }
 
@@ -111,7 +114,7 @@ carForm.addEventListener('submit', (event) => {
   event.preventDefault()
   const getElement = getFormElement(event)
 
-  const elements = {
+  const data = {
     image: getElement('image').value,
     brandModel: getElement('brand').value,
     year: getElement('year').value,
@@ -119,7 +122,13 @@ carForm.addEventListener('submit', (event) => {
     color: getElement('color').value
   }
 
-  addCar(elements)
+  addCar(data)
+
+  const noCars = document.querySelector('[data-js="no-cars"')
+  if (noCars) {
+    carTable.removeChild(noCars)
+  }
+
   event.target.reset()
   image.focus()
 })
