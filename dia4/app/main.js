@@ -1,22 +1,126 @@
 import './style.css'
 
 const url = 'http://localhost:3333/cars'
+const carForm = document.querySelector('[data-js="car-form"]')
 const carTable = document.querySelector('[data-js="car-table"')
 
-fetch(url)
-  .then(result => result.json())
-  .then(result => {
-    const cars = result
-    if (cars.length === 0) {
-      const tr = document.createElement('tr')
-      const td = document.createElement('td')
-      td.textContent = 'Nenhum carro encontrado'
-      td.colSpan = 5;
+const getFormElement = (event) => (elementName) => {
+  return event.target.elements[elementName]
+}
+
+const typeOfElements = {
+  image: insertImage,
+  text: insertText,
+  color: insertColor
+}
+
+function noCars() {
+  const tr = document.createElement('tr')
+  const td = document.createElement('td')
+  td.textContent = 'Nenhum carro encontrado'
+  td.colSpan = 5;
+  tr.appendChild(td)
+  carTable.appendChild(tr)
+}
+
+function listCars(cars) {
+  cars.map(car => {
+    const tr = document.createElement('tr')
+
+    const elements = [
+      { type: 'image', value: car.image },
+      { type: 'text', value: car.brandModel },
+      { type: 'text', value: car.year},
+      { type: 'text', value: car.plate},
+      { type: 'color', value: car.color}
+    ]
+
+    elements.forEach(element => {
+      const td = typeOfElements[element.type](element.value)
       tr.appendChild(td)
-      carTable.appendChild(tr)
-      return
-    }
-    return cars.map(function (car) {
-      console.log(car)
+    })
+
+    carTable.appendChild(tr)
+  })
+}
+
+function insertImage (value) {
+  const td = document.createElement('td')
+  const img = document.createElement('img')
+  img.src = value
+  img.style.width = '200px'
+  td.appendChild(img)
+  return td
+}
+
+function insertText (value) {
+  const td = document.createElement('td')
+  td.textContent = value
+  return td
+}
+
+function insertColor (value) {
+  const td = document.createElement('td')
+  const div = document.createElement('div')
+  div.style.width = '50px',
+  div.style.height = '50px',
+  div.style.borderRadius = '50%',
+  div.style.backgroundColor = value
+  div.style.border = '1px solid #000'
+  td.appendChild(div)
+  return td
+}
+
+function showCars() {
+  fetch(url)
+    .then(result => result.json())
+    .then(result => {
+      const cars = result
+      if (cars.length === 0) {
+        noCars()
+        return
+      }
+      return listCars(cars)
+    })
+}
+
+function addCar(elements) {
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      image: elements.image,
+      brandModel: elements.brandModel,
+      year: elements.year,
+      plate: elements.plate,
+      color: elements.color,
     })
   })
+  .then(() => {
+    fetch(url)
+      .then(result => result.json())
+      .then(showCars())
+  })
+}
+
+showCars()
+
+carForm.addEventListener('submit', (event) => {
+  event.preventDefault()
+  const getElement = getFormElement(event)
+
+  const elements = {
+    image: getElement('image').value,
+    brandModel: getElement('brand').value,
+    year: getElement('year').value,
+    plate: getElement('plate').value,
+    color: getElement('color').value
+  }
+
+  addCar(elements)
+  event.target.reset()
+  image.focus()
+})
+
