@@ -101,10 +101,10 @@ function addCar(car) {
       color: car.color,
     })
   })
-  .then(() => {
-    fetch(url)
-      .then(result => result.json())
-      .then(addRowCar(car))
+  .then(response => response.json())
+  .then(response => {
+    console.log(response.message)
+    if (!response.error) addRowCar(car)
   })
 }
 
