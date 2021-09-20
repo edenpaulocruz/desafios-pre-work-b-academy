@@ -19,9 +19,28 @@ function noCars() {
   const td = document.createElement('td')
   td.textContent = 'Nenhum carro encontrado'
   td.colSpan = 5;
-  tr.dataset.js = ('no-cars')
+  tr.dataset.js = ('message')
   tr.appendChild(td)
   carTable.appendChild(tr)
+}
+
+function showMessage(text) {
+  const tr = document.createElement('tr')
+  const td = document.createElement('td')
+  td.textContent = text
+  td.colSpan = 5;
+  tr.dataset.js = ('message')
+  tr.appendChild(td)
+  carTable.appendChild(tr)
+
+  setTimeout(removeMessage, 5000)
+}
+
+function removeMessage() {
+  const rowMessage = document.querySelector('[data-js="message"')
+  if (rowMessage) {
+    carTable.removeChild(rowMessage)
+  }
 }
 
 function addRowCar(car) {
@@ -103,8 +122,8 @@ function addCar(car) {
   })
   .then(response => response.json())
   .then(response => {
-    console.log(response.message)
     if (!response.error) addRowCar(car)
+    if (response.error) showMessage(response.message)
   })
 }
 
@@ -123,11 +142,12 @@ carForm.addEventListener('submit', (event) => {
   }
 
   addCar(data)
+  removeMessage()
 
-  const noCars = document.querySelector('[data-js="no-cars"')
-  if (noCars) {
-    carTable.removeChild(noCars)
-  }
+  // const rowMessage = document.querySelector('[data-js="message"')
+  // if (rowMessage) {
+  //   carTable.removeChild(rowMessage)
+  // }
 
   event.target.reset()
   image.focus()
