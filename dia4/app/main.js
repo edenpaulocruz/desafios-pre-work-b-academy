@@ -61,6 +61,8 @@ function addRowCar(car) {
   tdButton.appendChild(button)
   tr.appendChild(tdButton)
   carTable.appendChild(tr)
+
+  button.addEventListener('click', handleDelete)
 }
 
 function insertImage (value) {
@@ -129,6 +131,12 @@ function addCar(car) {
     }
     if (response.error) showMessage(response.message, response.error)
   })
+}
+
+function handleDelete(event) {
+  const button = event.target
+  const plate = button.dataset.plate
+  console.log(`Apagar carro placa ${plate}!`)
 }
 
 showCars()
