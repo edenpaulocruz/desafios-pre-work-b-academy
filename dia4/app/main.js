@@ -14,16 +14,16 @@ const typeOfElements = {
   color: insertColor
 }
 
-function showMessage(text, error) {
+function showMessage(text, flashMessage) {
   const tr = document.createElement('tr')
   const td = document.createElement('td')
   td.textContent = text
-  td.colSpan = 5;
+  td.colSpan = document.querySelectorAll('th').length;
   tr.dataset.js = ('message')
   tr.appendChild(td)
   carTable.appendChild(tr)
 
-  if (error) {
+  if (flashMessage) {
     td.style.backgroundColor = '#f00'
     td.style.color = '#fff'
     setTimeout(removeMessage, 5000)
@@ -133,7 +133,7 @@ function addCar(car) {
   })
 }
 
-function delCar(plate) {
+function deleteCar(plate) {
   fetch(url, {
     method: 'DELETE',
     headers: {
@@ -142,13 +142,20 @@ function delCar(plate) {
     body: JSON.stringify({ plate })
   })
   .then(result => result.json())
-  .then(result => console.log(result))
+  .then(result => {
+    if (!result.error) {
+      const rowCarToDelete = document.querySelector(`[data-plate="${plate}"]`)
+      carTable.removeChild(rowCarToDelete)
+    }
+    const flashMessage = true
+    showMessage(result.message, flashMessage)
+  })
 }
 
 function handleDelete(event) {
   const button = event.target
   const plate = button.dataset.plate
-  delCar(plate)
+  deleteCar(plate)
 }
 
 showCars()
@@ -166,11 +173,6 @@ carForm.addEventListener('submit', (event) => {
   }
 
   addCar(data)
-
-  // const rowMessage = document.querySelector('[data-js="message"')
-  // if (rowMessage) {
-  //   carTable.removeChild(rowMessage)
-  // }
 
   event.target.reset()
   image.focus()
