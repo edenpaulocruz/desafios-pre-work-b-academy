@@ -38,8 +38,6 @@ function removeMessage() {
 }
 
 function addRowCar(car) {
-  const tr = document.createElement('tr')
-
   const elements = [
     { type: 'image', value: car.image },
     { type: 'text', value: car.brandModel },
@@ -48,11 +46,20 @@ function addRowCar(car) {
     { type: 'color', value: car.color}
   ]
 
+  const tr = document.createElement('tr')
+  tr.dataset.plate = car.plate
+
   elements.forEach(element => {
     const td = typeOfElements[element.type](element.value)
     tr.appendChild(td)
   })
 
+  const tdButton = document.createElement('td')
+  const button = document.createElement('button')
+  button.textContent = 'Excluir'
+  button.dataset.plate = car.plate
+  tdButton.appendChild(button)
+  tr.appendChild(tdButton)
   carTable.appendChild(tr)
 }
 
