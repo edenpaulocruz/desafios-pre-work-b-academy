@@ -14,6 +14,33 @@ const typeOfElements = {
   color: insertColor
 }
 
+function insertImage (value) {
+  const td = document.createElement('td')
+  const img = document.createElement('img')
+  img.src = value
+  img.style.width = '200px'
+  td.appendChild(img)
+  return td
+}
+
+function insertText (value) {
+  const td = document.createElement('td')
+  td.textContent = value
+  return td
+}
+
+function insertColor (value) {
+  const td = document.createElement('td')
+  const div = document.createElement('div')
+  div.style.width = '50px',
+  div.style.height = '50px',
+  div.style.borderRadius = '50%',
+  div.style.backgroundColor = value
+  div.style.border = '1px solid #000'
+  td.appendChild(div)
+  return td
+}
+
 function showMessage(text, flashMessage) {
   const tr = document.createElement('tr')
   const td = document.createElement('td')
@@ -63,33 +90,6 @@ function addRowCar(car) {
   carTable.appendChild(tr)
 
   button.addEventListener('click', handleDelete)
-}
-
-function insertImage (value) {
-  const td = document.createElement('td')
-  const img = document.createElement('img')
-  img.src = value
-  img.style.width = '200px'
-  td.appendChild(img)
-  return td
-}
-
-function insertText (value) {
-  const td = document.createElement('td')
-  td.textContent = value
-  return td
-}
-
-function insertColor (value) {
-  const td = document.createElement('td')
-  const div = document.createElement('div')
-  div.style.width = '50px',
-  div.style.height = '50px',
-  div.style.borderRadius = '50%',
-  div.style.backgroundColor = value
-  div.style.border = '1px solid #000'
-  td.appendChild(div)
-  return td
 }
 
 function showCars() {
@@ -177,4 +177,3 @@ carForm.addEventListener('submit', (event) => {
   event.target.reset()
   image.focus()
 })
-
