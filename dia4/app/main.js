@@ -14,17 +14,7 @@ const typeOfElements = {
   color: insertColor
 }
 
-function noCars() {
-  const tr = document.createElement('tr')
-  const td = document.createElement('td')
-  td.textContent = 'Nenhum carro encontrado'
-  td.colSpan = 5;
-  tr.dataset.js = ('message')
-  tr.appendChild(td)
-  carTable.appendChild(tr)
-}
-
-function showMessage(text) {
+function showMessage(text, error) {
   const tr = document.createElement('tr')
   const td = document.createElement('td')
   td.textContent = text
@@ -33,11 +23,15 @@ function showMessage(text) {
   tr.appendChild(td)
   carTable.appendChild(tr)
 
-  setTimeout(removeMessage, 5000)
+  if (error) {
+    td.style.backgroundColor = '#f00'
+    td.style.color = '#fff'
+    setTimeout(removeMessage, 5000)
+  }
 }
 
 function removeMessage() {
-  const rowMessage = document.querySelector('[data-js="message"')
+  const rowMessage = document.querySelector('[data-js="message"]:last-child')
   if (rowMessage) {
     carTable.removeChild(rowMessage)
   }
@@ -96,7 +90,7 @@ function showCars() {
       const cars = result
 
       if (cars.length === 0) {
-        noCars()
+        showMessage('Nenhum carro encontrado')
         return
       }
 
@@ -122,8 +116,11 @@ function addCar(car) {
   })
   .then(response => response.json())
   .then(response => {
-    if (!response.error) addRowCar(car)
-    if (response.error) showMessage(response.message)
+    if (!response.error) {
+      removeMessage()
+      addRowCar(car)
+    }
+    if (response.error) showMessage(response.message, response.error)
   })
 }
 
@@ -142,7 +139,6 @@ carForm.addEventListener('submit', (event) => {
   }
 
   addCar(data)
-  removeMessage()
 
   // const rowMessage = document.querySelector('[data-js="message"')
   // if (rowMessage) {
