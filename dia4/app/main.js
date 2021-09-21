@@ -133,10 +133,22 @@ function addCar(car) {
   })
 }
 
+function delCar(plate) {
+  fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ plate })
+  })
+  .then(result => result.json())
+  .then(result => console.log(result))
+}
+
 function handleDelete(event) {
   const button = event.target
   const plate = button.dataset.plate
-  console.log(`Apagar carro placa ${plate}!`)
+  delCar(plate)
 }
 
 showCars()
